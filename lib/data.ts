@@ -2,6 +2,7 @@ export interface RewardRow {
   date: string;
   hashrate: number;
   reward: number;
+  rewardUsd: number;
   pr: number;
   electricity: number;
   service: number;
@@ -9,6 +10,8 @@ export interface RewardRow {
   totalDiscount: string;
   status: string;
 }
+
+const BTC_PRICE_USD = 90000;
 
 function formatDate(date: Date): string {
   const day = String(date.getDate()).padStart(2, "0");
@@ -37,26 +40,29 @@ function seededRandom(seed: number): number {
   return x - Math.floor(x);
 }
 
-// Generate 30 days of reward data with slight variations
+// 100k€ machine, 30% annual → ~0.00096700 BTC/day, ~500 TH/s
 function generateRawRows() {
   const rows = [];
-  const baseReward = 0.00001170;
-  const electricityValues = [1.48, 1.49, 1.50, 1.51, 1.52];
-  const serviceValues = [0.73, 0.74, 0.75];
+  const baseReward = 0.00096700;
+  const electricityValues = [28.37, 28.74, 29.13, 29.48, 29.82];
+  const serviceValues = [12.28, 12.63, 13.07];
 
   for (let i = 0; i < 30; i++) {
     const rand = seededRandom(i);
-    // Reward varies slightly around base: ±0.00000015
-    const reward = +(baseReward + (rand - 0.5) * 0.00000030).toFixed(8);
-    // Hashrate stays close: 26.60 - 27.00
-    const hashrate = +(26.60 + rand * 0.40).toFixed(2);
+    const rand2 = seededRandom(i + 50);
+    // Reward varies more organically: base + two noise sources
+    const reward = +(baseReward + (rand - 0.5) * 0.00003800 + (rand2 - 0.5) * 0.00001200).toFixed(8);
+    // PR slightly different from reward (fees etc)
+    const pr = +(reward + (seededRandom(i + 77) - 0.5) * 0.00000600).toFixed(8);
+    // Hashrate stable at 500
+    const hashrate = 500.00;
     const electricity = electricityValues[Math.floor(seededRandom(i + 100) * electricityValues.length)];
     const service = serviceValues[Math.floor(seededRandom(i + 200) * serviceValues.length)];
     rows.push({
       daysBack: i,
       hashrate,
       reward,
-      pr: reward,
+      pr,
       electricity,
       service,
       totalDiscount: seededRandom(i + 300) > 0.5 ? "6.21%" : "5.91%",
@@ -71,6 +77,7 @@ export const rewardsData: RewardRow[] = rawRows.map((row) => ({
   date: formatDate(daysAgo(row.daysBack)),
   hashrate: row.hashrate,
   reward: row.reward,
+  rewardUsd: +(row.reward * BTC_PRICE_USD).toFixed(2),
   pr: row.pr,
   electricity: row.electricity,
   service: row.service,
@@ -78,6 +85,8 @@ export const rewardsData: RewardRow[] = rawRows.map((row) => ({
   totalDiscount: row.totalDiscount,
   status: "Réinvesti",
 }));
+
+export const totalRewardUsd = rewardsData.reduce((sum, r) => sum + r.rewardUsd, 0).toFixed(2);
 
 export const dateRangeLabel = `${formatDate(daysAgo(29))} - ${formatDate(daysAgo(0))}`;
 
@@ -95,7 +104,7 @@ export const rewardsChartData: ChartDataPoint[] = [...rawRows]
   }));
 
 export const hashrateChartData: ChartDataPoint[] = [
-  { date: formatDateShort(daysAgo(7)), value: 26.50 },
+  { date: formatDateShort(daysAgo(31)), value: 500.00 },
   ...[...rawRows].reverse().map((row) => ({
     date: formatDateShort(daysAgo(row.daysBack)),
     value: row.hashrate,

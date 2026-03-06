@@ -69,8 +69,7 @@ export function StatCardsGrid() {
       <StatCard
         label="Rémunération totale"
         icon={<BitcoinIcon className="h-8 w-8" />}
-        value="0.00179100"
-        subValue="$122.60"
+        value="$63,867"
       />
       <StatCard
         label="Mineurs"
@@ -88,7 +87,7 @@ export function StatCardsGrid() {
             <Zap className="h-5 w-5 text-white" />
           </div>
         }
-        value="27 TH/s"
+        value="500 TH/s"
         linkText="Mise à niveau"
       />
       <StatCard
@@ -98,7 +97,7 @@ export function StatCardsGrid() {
             <Lightbulb className="h-5 w-5 text-white" />
           </div>
         }
-        value="15 W/TH"
+        value="20 W/TH"
         linkText="Mise à niveau"
       />
     </div>

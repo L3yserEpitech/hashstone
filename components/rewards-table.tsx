@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { rewardsData, dateRangeLabel } from "@/lib/data";
+import { rewardsData, dateRangeLabel, totalRewardUsd } from "@/lib/data";
 
 function BitcoinIconSmall() {
   return (
@@ -50,7 +50,7 @@ export function RewardsTable() {
             Récompenses pour la période
           </h3>
           <span className="text-lg font-semibold text-foreground">
-            0.00008161 BTC
+            ${totalRewardUsd}
           </span>
         </div>
         <div className="flex items-center gap-2 rounded-lg border border-border bg-accent px-3 py-1.5 text-sm text-muted-foreground">
@@ -83,7 +83,7 @@ export function RewardsTable() {
               <TableHead className="text-muted-foreground">
                 <span className="flex items-center gap-1">
                   Récompense
-                  <Info className="h-3.5 w-3.5" />
+                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#22c55e] text-[9px] font-bold text-white">$</span>
                 </span>
               </TableHead>
               <TableHead className="text-muted-foreground">
@@ -116,8 +116,7 @@ export function RewardsTable() {
                 </TableCell>
                 <TableCell>
                   <span className="flex items-center gap-1.5 font-mono text-[#22c55e]">
-                    {row.reward.toFixed(8)}
-                    <BitcoinIconSmall />
+                    ${row.rewardUsd.toFixed(2)}
                   </span>
                 </TableCell>
                 <TableCell>
