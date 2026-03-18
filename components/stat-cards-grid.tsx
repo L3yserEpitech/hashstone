@@ -100,6 +100,7 @@ export function StatCardsGrid() {
         value="15 W/TH"
         linkText="Mise à niveau"
       />
+
     </div>
   );
 }
