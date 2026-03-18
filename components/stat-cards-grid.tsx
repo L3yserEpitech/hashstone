@@ -87,7 +87,7 @@ export function StatCardsGrid() {
             <Zap className="h-5 w-5 text-white" />
           </div>
         }
-        value="500 TH/s"
+        value="5000 TH/s"
         linkText="Mise à niveau"
       />
       <StatCard
@@ -97,7 +97,7 @@ export function StatCardsGrid() {
             <Lightbulb className="h-5 w-5 text-white" />
           </div>
         }
-        value="20 W/TH"
+        value="15 W/TH"
         linkText="Mise à niveau"
       />
     </div>

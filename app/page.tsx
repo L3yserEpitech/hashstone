@@ -6,6 +6,8 @@ import { RewardsChart } from "@/components/rewards-chart";
 import { HashrateChart } from "@/components/hashrate-chart";
 import { RewardsTable } from "@/components/rewards-table";
 
+export const dynamic = "force-dynamic";
+
 export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">

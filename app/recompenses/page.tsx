@@ -2,6 +2,8 @@ import { TopNavbar } from "@/components/top-navbar";
 import { SubNavbar } from "@/components/sub-navbar";
 import { RewardsTable } from "@/components/rewards-table";
 
+export const dynamic = "force-dynamic";
+
 export default function RecompensesPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
