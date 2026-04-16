@@ -40,7 +40,7 @@ function seededRandom(seed: number): number {
   return x - Math.floor(x);
 }
 
-// 100k€ machine, 30% annual → ~0.00096700 BTC/day, ~500 TH/s
+// 100k€ machine, 30% annual → ~0.00096700 BTC/day, ~5000 TH/s
 function generateRawRows() {
   const rows = [];
   const baseReward = 0.00096700;
@@ -54,8 +54,8 @@ function generateRawRows() {
     const reward = +(baseReward + (rand - 0.5) * 0.00003800 + (rand2 - 0.5) * 0.00001200).toFixed(8);
     // PR slightly different from reward (fees etc)
     const pr = +(reward + (seededRandom(i + 77) - 0.5) * 0.00000600).toFixed(8);
-    // Hashrate stable at 500
-    const hashrate = 500.00;
+    // Hashrate stable at 5000
+    const hashrate = 5000.00;
     const electricity = electricityValues[Math.floor(seededRandom(i + 100) * electricityValues.length)];
     const service = serviceValues[Math.floor(seededRandom(i + 200) * serviceValues.length)];
     rows.push({
@@ -104,7 +104,7 @@ export const rewardsChartData: ChartDataPoint[] = [...rawRows]
   }));
 
 export const hashrateChartData: ChartDataPoint[] = [
-  { date: formatDateShort(daysAgo(31)), value: 500.00 },
+  { date: formatDateShort(daysAgo(31)), value: 5000.00 },
   ...[...rawRows].reverse().map((row) => ({
     date: formatDateShort(daysAgo(row.daysBack)),
     value: row.hashrate,
